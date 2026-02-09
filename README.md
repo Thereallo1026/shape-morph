@@ -139,4 +139,4 @@ Circle, Square, Slanted, Arch, Fan, Arrow, SemiCircle, Oval, Pill, Triangle, Dia
 
 ## License
 
-Apache-2.0
+MIT
