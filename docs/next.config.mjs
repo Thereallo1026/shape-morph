@@ -5,6 +5,9 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  turbopack: {
+    root: ".",
+  },
   rewrites() {
     return [
       {
@@ -12,11 +15,6 @@ const config = {
         destination: "/llms.mdx/docs/:path*",
       },
     ];
-  },
-  experimental: {
-    turbo: {
-      root: ".",
-    },
   },
 };
 
