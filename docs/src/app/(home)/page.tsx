@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MorphBackground } from "@/components/morph-background";
 import { ScatteredShapes } from "@/components/scattered-shapes";
+import packageJson from "../../../../package.json";
 
 export const metadata: Metadata = {
   openGraph: {
@@ -28,13 +29,14 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const version = packageJson.version;
   return (
     <main className="absolute inset-0 flex flex-1 flex-col items-center justify-center px-6 py-24">
       <MorphBackground />
       <ScatteredShapes />
       <div className="relative flex max-w-2xl flex-col items-center text-center">
         <div className="mb-6 rounded-full bg-fd-primary/10 px-4 py-1.5 font-medium text-fd-primary text-sm">
-          Release 0.1.1
+          Release {version}
         </div>
 
         <h1 className="mb-4 font-bold text-5xl text-fd-foreground tracking-tight sm:text-6xl">
