@@ -33,14 +33,8 @@ bun install
 # Build
 bun run build
 
-# Run demo
-bun run dev:demo
-
-# Lint
-bunx ultracite check
-
 # Format
-bunx ultracite fix
+bun run fix
 ```
 
 ### Docs site
