@@ -1,7 +1,31 @@
 import { Icon } from "@iconify/react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { MorphBackground } from "@/components/morph-background";
 import { ScatteredShapes } from "@/components/scattered-shapes";
+
+export const metadata: Metadata = {
+  openGraph: {
+    title: "shape-morph",
+    description:
+      "Android's shape morphing system, rebuilt in TypeScript. SVG paths, CSS clip-paths, and React components.",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "shape-morph",
+    description:
+      "Android's shape morphing system, rebuilt in TypeScript. SVG paths, CSS clip-paths, and React components.",
+    images: ["/og.png"],
+  },
+};
 
 export default function HomePage() {
   return (
