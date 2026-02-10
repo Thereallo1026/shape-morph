@@ -6,7 +6,7 @@ const withMDX = createMDX();
 const config = {
   reactStrictMode: true,
   turbopack: {
-    root: "/docs",
+    root: "/",
   },
   rewrites() {
     return [
