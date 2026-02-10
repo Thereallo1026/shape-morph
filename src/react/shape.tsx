@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { getShape, type ShapeName } from "../core/material-shapes";
 import { toPathD } from "../output/svg-path";
 
-interface ShapeProps {
+export interface ShapeProps {
   /** Material shape name, e.g. "Heart", "Circle" */
   name: ShapeName;
   /** Size in px (width & height). Default 48 */
@@ -23,7 +23,7 @@ interface ShapeProps {
  * Renders a Material shape as an inline SVG element.
  *
  * The SVG inherits `currentColor` by default, so it responds to
- * the parent's `color` CSS property — including Tailwind utilities.
+ * the parent's `color` CSS property - including Tailwind utilities.
  *
  * ```tsx
  * <Shape name="Heart" size={32} className="text-red-500" />

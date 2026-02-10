@@ -1,0 +1,38 @@
+---
+title: Available Shapes
+description: All 35 built-in Material Design 3 shapes.
+---
+
+The library ships 35 preset shapes from the Material Design 3 shape system. Use any of these names with `getShape()`, `<Shape>`, `useMorph`, or `useShape`.
+
+## Shape names
+
+<ShapeGallery />
+
+## Usage
+
+```ts
+import { getShape, shapeNames } from "shape-morph";
+
+// Get a specific shape
+const heart = getShape("Heart");
+
+// Iterate all shape names
+for (const name of shapeNames) {
+  const shape = getShape(name);
+}
+```
+
+```tsx
+import { Shape } from "shape-morph/react";
+
+<Shape name="Cookie9Sided" size={48} fill="#6750A4" />
+```
+
+All shape names are available as the `ShapeName` type for TypeScript autocomplete:
+
+```ts
+import type { ShapeName } from "shape-morph";
+// or
+import type { ShapeName } from "shape-morph/react";
+```

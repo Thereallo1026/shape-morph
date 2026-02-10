@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+@theme {
+  /* MD3 Purple - Light */
+  --color-fd-background: hsl(270, 100%, 99.6%);
+  --color-fd-foreground: hsl(270, 6%, 10%);
+  --color-fd-muted: hsl(270, 20%, 94%);
+  --color-fd-muted-foreground: hsl(270, 6%, 40%);
+  --color-fd-popover: hsl(270, 30%, 98%);
+  --color-fd-popover-foreground: hsl(270, 6%, 15%);
+  --color-fd-card: hsl(270, 20%, 96%);
+  --color-fd-card-foreground: hsl(270, 6%, 10%);
+  --color-fd-border: hsla(265, 20%, 80%, 50%);
+  --color-fd-primary: hsl(264, 34%, 48%);
+  --color-fd-primary-foreground: hsl(0, 0%, 100%);
+  --color-fd-secondary: hsl(264, 40%, 94%);
+  --color-fd-secondary-foreground: hsl(264, 34%, 32%);
+  --color-fd-accent: hsla(264, 40%, 85%, 50%);
+  --color-fd-accent-foreground: hsl(264, 34%, 32%);
+  --color-fd-ring: hsl(264, 34%, 48%);
+}
+
+.dark {
+  --color-fd-background: hsl(270, 6%, 7%);
+  --color-fd-foreground: hsl(270, 10%, 92%);
+  --color-fd-muted: hsl(270, 6%, 13%);
+  --color-fd-muted-foreground: hsla(270, 10%, 70%, 80%);
+  --color-fd-popover: hsl(270, 6%, 12%);
+  --color-fd-popover-foreground: hsl(270, 10%, 87%);
+  --color-fd-card: hsl(270, 6%, 10%);
+  --color-fd-card-foreground: hsl(270, 10%, 98%);
+  --color-fd-border: hsla(264, 20%, 40%, 20%);
+  --color-fd-primary: hsl(264, 100%, 83%);
+  --color-fd-primary-foreground: hsl(264, 100%, 18%);
+  --color-fd-secondary: hsl(264, 20%, 16%);
+  --color-fd-secondary-foreground: hsl(264, 100%, 93%);
+  --color-fd-accent: hsla(264, 30%, 35%, 40%);
+  --color-fd-accent-foreground: hsl(264, 100%, 90%);
+  --color-fd-ring: hsl(264, 100%, 83%);
+}
+
+[data-sidebar-placeholder] a[href] {
+  border-radius: 9999px !important;
+}

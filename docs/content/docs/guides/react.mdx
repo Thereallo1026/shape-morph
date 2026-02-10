@@ -1,0 +1,91 @@
+---
+title: React
+description: Shape component and morph hooks for React.
+---
+
+The `shape-morph/react` entry point provides a component and hooks for rendering shapes and morphing in React. Requires React 18+.
+
+## `<Shape>` component
+
+Renders a shape as an inline SVG.
+
+```tsx
+import { Shape } from "shape-morph/react";
+
+<Shape name="Heart" size={32} fill="red" />
+<Shape name="Cookie9Sided" size={48} fill="#6750A4" stroke="white" />
+```
+
+Props:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `name` | `ShapeName` | required | Shape to render |
+| `size` | `number` | `24` | Width and height in pixels |
+| `fill` | `string` | `"currentColor"` | Fill color |
+| `stroke` | `string` | - | Stroke color |
+| `className` | `string` | - | Class on the `<svg>` element |
+| `style` | `CSSProperties` | - | Style on the `<svg>` element |
+
+## `useMorph`
+
+Animates between two shapes with a `requestAnimationFrame` loop and ease-in-out interpolation.
+
+```tsx
+import { useMorph } from "shape-morph/react";
+
+function Avatar({ hovered }: { hovered: boolean }) {
+  const { clipPath, progress } = useMorph("Circle", "Heart", {
+    progress: hovered ? 1 : 0,
+    duration: 300,
+  });
+
+  return (
+    <img
+      style={{
+        clipPath,
+        transform: `rotate(${progress * 90}deg)`,
+      }}
+      src="/avatar.png"
+    />
+  );
+}
+```
+
+Change the target `progress` and the hook smoothly animates from the current position.
+
+### Options
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `progress` | `number` | `0` | Target progress (0–1) |
+| `duration` | `number` | `300` | Animation duration in ms |
+| `size` | `number` | - | Output size for `pathD` |
+
+### Return value
+
+| Property | Type | Description |
+|---|---|---|
+| `pathD` | `string` | SVG path `d` attribute |
+| `clipPath` | `string` | CSS `clip-path: polygon(...)` |
+| `progress` | `number` | Current animated progress (0–1) |
+
+The `progress` return value is the eased, animated value - not the target. Use it to sync other animations like rotation or color transitions.
+
+## `useShape`
+
+Returns path data for a single shape. No animation.
+
+```tsx
+import { useShape } from "shape-morph/react";
+
+const { pathD, clipPath } = useShape("Heart", 100);
+```
+
+### Return value
+
+| Property | Type | Description |
+|---|---|---|
+| `pathD` | `string` | SVG path `d` attribute |
+| `clipPath` | `string` | CSS `clip-path: polygon(...)` |
+| `polygon` | `RoundedPolygon` | The underlying polygon instance |

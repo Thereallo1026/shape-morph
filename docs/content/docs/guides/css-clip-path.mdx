@@ -1,0 +1,56 @@
+---
+title: CSS Clip-Path
+description: Use shapes as CSS clip-path values with native transitions.
+---
+
+Shapes can be output as CSS `clip-path` strings. Because both the start and end strings have the same number of polygon vertices, browsers can transition between them with pure CSS.
+
+## Basic clip-path
+
+```ts
+import { getShape, Morph, toClipPathPolygon } from "shape-morph";
+
+const morph = new Morph(getShape("Circle"), getShape("Heart"));
+
+const startClip = toClipPathPolygon(morph.asCubics(0));
+const endClip = toClipPathPolygon(morph.asCubics(1));
+```
+
+Apply `startClip` on idle and `endClip` on hover. The CSS handles the animation:
+
+```css
+.shape {
+  clip-path: polygon(...); /* startClip */
+  transition: clip-path 300ms ease-in-out;
+}
+
+.shape:hover {
+  clip-path: polygon(...); /* endClip */
+}
+```
+
+## Shorthand with `toMorphPair`
+
+```ts
+import { toMorphPair } from "shape-morph";
+
+const clipPath = toMorphPair(0.5, "Circle", "Heart");
+```
+
+`toMorphPair` creates the morph internally and returns the clip-path string at the given progress. Useful for one-off values.
+
+## `clip-path: path()` variant
+
+```ts
+import { toClipPathPath } from "shape-morph";
+
+const morph = new Morph(getShape("Circle"), getShape("Heart"));
+const clipPath = toClipPathPath(morph.asCubics(0.5));
+// Returns: path("M ... Z")
+```
+
+`toClipPathPath` uses the SVG `path()` function instead of `polygon()`. This preserves the cubic Bezier curves exactly, but CSS cannot transition between two `path()` values natively. Use this when you need precise curves without animation.
+
+## Why polygon works for transitions
+
+`toClipPathPolygon` samples a fixed number of points along each cubic curve. Both the start and end polygon strings always have the exact same number of vertices. When browsers see two `polygon()` values with matching vertex counts, they interpolate each point linearly. No JavaScript animation loop needed.

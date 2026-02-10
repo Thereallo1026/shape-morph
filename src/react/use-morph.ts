@@ -4,7 +4,7 @@ import { Morph } from "../core/morph";
 import { toClipPathPolygon } from "../output/clip-path";
 import { toPathD } from "../output/svg-path";
 
-interface MorphOptions {
+export interface MorphOptions {
   /** Target progress (0–1). Changes trigger animation. */
   progress: number;
   /** Animation duration in ms (default 300) */
@@ -15,7 +15,7 @@ interface MorphOptions {
   size?: number;
 }
 
-interface MorphOutput {
+export interface MorphOutput {
   /** SVG path `d` attribute string */
   pathD: string;
   /** CSS `clip-path: polygon(...)` value */

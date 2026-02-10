@@ -1,0 +1,45 @@
+---
+title: SVG Paths
+description: Render shapes as SVG path elements.
+---
+
+The core API outputs shapes as SVG path `d` attribute strings. Use these with `<path>` elements in any SVG context.
+
+## Single shape
+
+```ts
+import { getShape, toSvgPath } from "shape-morph";
+
+const heart = getShape("Heart");
+const d = toSvgPath(heart, 100); // 100px size
+```
+
+```html
+<svg width="100" height="100" viewBox="0 0 100 100">
+  <path d={d} fill="red" />
+</svg>
+```
+
+## Morphed shape
+
+```ts
+import { getShape, Morph, toPathD } from "shape-morph";
+
+const start = getShape("Circle");
+const end = getShape("Heart");
+const morph = new Morph(start, end);
+
+// Get the midpoint between Circle and Heart
+const d = toPathD(morph.asCubics(0.5), 100);
+```
+
+`toPathD` takes the cubic curves from `morph.asCubics(progress)` and converts them to a path string. The second argument is the output size in pixels.
+
+## Progress values
+
+- `0` - the start shape (Circle in this example)
+- `1` - the end shape (Heart)
+- `0.5` - exact midpoint
+- Any float between 0 and 1 is valid
+
+The morph handles feature-matching automatically. Both shapes are subdivided so they have the same number of cubic segments, regardless of their original complexity.

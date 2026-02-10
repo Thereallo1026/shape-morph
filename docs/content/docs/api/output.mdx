@@ -1,0 +1,52 @@
+---
+title: Output
+description: Functions for converting shapes to SVG and CSS.
+---
+
+Output functions convert cubic curves or polygons into renderable formats.
+
+```ts
+import { toPathD, toSvgPath, toClipPathPolygon, toClipPathPath, toMorphPair } from "shape-morph";
+```
+
+## `toPathD`
+
+```ts
+toPathD(cubics: Cubic[], size?: number): string
+```
+
+Converts cubic curves (from `morph.asCubics()`) to an SVG path `d` attribute string. Optional `size` scales the output.
+
+## `toSvgPath`
+
+```ts
+toSvgPath(polygon: RoundedPolygon, size?: number): string
+```
+
+Converts a `RoundedPolygon` directly to an SVG path `d` attribute. Shorthand for shapes that don't need morphing.
+
+## `toClipPathPolygon`
+
+```ts
+toClipPathPolygon(cubics: Cubic[], samples?: number): string
+```
+
+Converts cubics to a CSS `clip-path: polygon(...)` string. Samples points along each curve to create a polygon with a fixed vertex count.
+
+The fixed vertex count is what makes CSS transitions work - both start and end polygon strings have identical numbers of points, so browsers can interpolate linearly.
+
+## `toClipPathPath`
+
+```ts
+toClipPathPath(cubics: Cubic[], samples?: number): string
+```
+
+Converts cubics to a CSS `clip-path: path("...")` string. Preserves exact cubic Bezier curves. CSS **cannot** transition between two `path()` values, so use this only for static shapes.
+
+## `toMorphPair`
+
+```ts
+toMorphPair(progress: number, start: ShapeName, end: ShapeName, samples?: number): string
+```
+
+Convenience function. Creates a `Morph` from two shape names and returns the `clip-path` polygon string at the given progress. Useful for one-off values without manually creating `Morph` instances.

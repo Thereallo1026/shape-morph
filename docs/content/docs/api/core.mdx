@@ -1,0 +1,46 @@
+---
+title: Core
+description: Core morph and shape APIs.
+---
+
+All core exports are available from the `shape-morph` entry point.
+
+```ts
+import { Morph, getShape, shapeNames } from "shape-morph";
+```
+
+## `Morph`
+
+```ts
+new Morph(start: RoundedPolygon, end: RoundedPolygon)
+```
+
+Creates a morph between two shapes. Handles feature-matching, subdivision, and interpolation internally.
+
+### `morph.asCubics(progress: number): Cubic[]`
+
+Returns the interpolated cubic curves at the given progress (0–1). Progress 0 is the start shape, 1 is the end shape.
+
+## `getShape`
+
+```ts
+getShape(name: ShapeName): RoundedPolygon
+```
+
+Returns a preset Material Design 3 shape as a `RoundedPolygon`. See [Available Shapes](/docs/shapes) for the full list.
+
+## `shapeNames`
+
+```ts
+const shapeNames: readonly ShapeName[]
+```
+
+Array of all 35 shape names. Useful for iteration.
+
+## `ShapeName`
+
+```ts
+type ShapeName = "Circle" | "Square" | "Heart" | ... // 35 total
+```
+
+Union type of all valid shape names. Available from both `shape-morph` and `shape-morph/react`.

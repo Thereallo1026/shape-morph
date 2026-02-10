@@ -1,0 +1,56 @@
+---
+title: Getting Started
+description: Install shape-morph and render your first shape.
+---
+
+## Installation
+
+```package-install
+shape-morph
+```
+
+The core package has zero dependencies. The `shape-morph/react` entry point requires React 18+ as a peer dependency.
+
+## Your first shape
+
+The fastest way to render a shape is with the React component:
+
+```tsx
+import { Shape } from "shape-morph/react";
+
+<Shape name="Heart" size={32} fill="red" />
+```
+
+Or use the core API directly:
+
+```ts
+import { getShape, toSvgPath } from "shape-morph";
+
+const heart = getShape("Heart");
+const d = toSvgPath(heart, 100);
+// Use as <path d={d} />
+```
+
+## Your first morph
+
+```ts
+import { getShape, Morph, toPathD } from "shape-morph";
+
+const start = getShape("Circle");
+const end = getShape("Heart");
+const morph = new Morph(start, end);
+
+// progress: 0 = Circle, 1 = Heart, 0.5 = midpoint
+const d = toPathD(morph.asCubics(0.5), 100);
+```
+
+The `Morph` class handles feature-matching and subdivision automatically. Call `asCubics(progress)` at any value between 0 and 1 to get the interpolated shape.
+
+## Next steps
+
+<Cards>
+  <Card title="SVG Paths" href="/docs/guides/svg-path" />
+  <Card title="CSS Clip-Path" href="/docs/guides/css-clip-path" />
+  <Card title="React Components" href="/docs/guides/react" />
+  <Card title="Custom Shapes" href="/docs/guides/custom-shapes" />
+</Cards>

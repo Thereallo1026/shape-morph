@@ -1,0 +1,39 @@
+---
+title: Introduction
+description: Material Design 3 shape morphing for the web.
+---
+
+**shape-morph** is a TypeScript port of Android's `androidx.graphics.shapes` library. It gives you Material Design 3 shapes as SVG paths, CSS `clip-path` strings, or React components. With morphing.
+
+## What it does
+
+Every shape is a `RoundedPolygon` built from cubic Bezier curves. Each corner has a configurable radius and smoothing value. The library ships **35 preset shapes** and lets you create your own.
+
+Morphing works by feature-matching two shapes with completely different structures. A Circle has 8 cubic curves. A Heart has 16. The `Morph` class aligns them by detecting convex corners, concave corners, and flat edges, then subdivides both shapes so they have the same number of segments. Interpolate at any progress between 0 and 1.
+
+## Output formats
+
+- **SVG path** - `toPathD()` returns a `d` attribute string for `<path>` elements
+- **CSS clip-path** - `toClipPathPolygon()` returns a `polygon(...)` string with fixed vertex count, so CSS transitions work natively
+- **React** - `<Shape>` component and `useMorph` hook with built-in `requestAnimationFrame` animation
+
+## Quick example
+
+```tsx
+import { useMorph } from "shape-morph/react";
+
+function Avatar({ hovered }: { hovered: boolean }) {
+  const { clipPath } = useMorph("Circle", "Heart", {
+    progress: hovered ? 1 : 0,
+    duration: 300,
+  });
+
+  return <img style={{ clipPath }} src="/avatar.png" />;
+}
+```
+
+<Cards>
+  <Card title="Getting Started" href="/docs/getting-started" />
+  <Card title="Available Shapes" href="/docs/shapes" />
+  <Card title="API Reference" href="/docs/api/core" />
+</Cards>

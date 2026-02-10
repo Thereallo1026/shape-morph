@@ -4,7 +4,7 @@ import type { RoundedPolygon } from "../core/polygon";
 import { toClipPathPolygon } from "../output/clip-path";
 import { toPathD } from "../output/svg-path";
 
-interface ShapeOutput {
+export interface ShapeOutput {
   /** SVG path `d` attribute string, scaled to `size` */
   pathD: string;
   /** CSS `clip-path: polygon(...)` value using percentages */

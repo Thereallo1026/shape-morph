@@ -1,0 +1,63 @@
+---
+title: React
+description: React component and hooks API reference.
+---
+
+All React exports are available from the `shape-morph/react` entry point. Requires React 18+.
+
+```tsx
+import { Shape, useMorph, useShape } from "shape-morph/react";
+import type { ShapeName } from "shape-morph/react";
+```
+
+## `<Shape>`
+
+```tsx
+<Shape name="Heart" size={32} fill="red" />
+```
+
+Renders a shape as an inline `<svg>` element.
+
+<AutoTypeTable path="../src/react/shape.tsx" name="ShapeProps" />
+
+## `useMorph`
+
+```ts
+useMorph(start: ShapeName, end: ShapeName, options: MorphOptions): MorphResult
+```
+
+Animated morph hook. Runs a `requestAnimationFrame` loop with ease-in-out interpolation.
+
+### Options
+
+<AutoTypeTable path="../src/react/use-morph.ts" name="MorphOptions" />
+
+### Returns
+
+<AutoTypeTable path="../src/react/use-morph.ts" name="MorphOutput" />
+
+The returned `progress` is the animated value, not the target. It smoothly interpolates toward the target using ease-in-out timing. Use it to drive synchronized animations:
+
+```tsx
+const { clipPath, progress } = useMorph("Circle", "Heart", {
+  progress: hovered ? 1 : 0,
+  duration: 300,
+});
+
+<div style={{
+  clipPath,
+  transform: `rotate(${progress * 90}deg)`,
+}} />
+```
+
+## `useShape`
+
+```ts
+useShape(name: ShapeName, size?: number): ShapeResult
+```
+
+Returns path data for a static shape. No animation.
+
+### Returns
+
+<AutoTypeTable path="../src/react/use-shape.ts" name="ShapeOutput" />

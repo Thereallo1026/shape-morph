@@ -1,0 +1,66 @@
+---
+title: Polygon Builders
+description: Functions for creating custom rounded polygons.
+---
+
+Builder functions for creating custom `RoundedPolygon` instances.
+
+```ts
+import { createStar, createCircle, createRectangle, createPolygon, cornerRounding } from "shape-morph";
+```
+
+## `createCircle`
+
+```ts
+createCircle(vertices?: number): RoundedPolygon
+```
+
+Creates a circle approximation using cubic Bezier curves. Default is 8 vertices. More vertices = smoother circle.
+
+## `createRectangle`
+
+```ts
+createRectangle(width: number, height: number, rounding?: CornerRounding): RoundedPolygon
+```
+
+Creates a rectangle with optional corner rounding.
+
+## `createStar`
+
+```ts
+createStar(
+  points: number,
+  outerRadius: number,
+  innerRadius: number,
+  rounding: CornerRounding
+): RoundedPolygon
+```
+
+Creates a star polygon. `innerRadius` is relative to `outerRadius` - a value of `0.5` means the inner points are halfway to the center.
+
+## `createPolygon`
+
+```ts
+createPolygon(vertices: number, rounding: CornerRounding): RoundedPolygon
+```
+
+Creates a regular polygon (triangle, pentagon, hexagon, etc.) with the given number of vertices.
+
+## `cornerRounding`
+
+```ts
+cornerRounding(radius: number, smoothing?: number): CornerRounding
+```
+
+Creates a corner rounding configuration.
+
+- **radius** (0–1): Fraction of edge length used for rounding. `0` is sharp, `1` rounds the entire edge.
+- **smoothing** (0–1, default `0`): Cubic Bezier easing applied to the rounding. `0` gives circular arcs, higher values produce softer organic curves.
+
+## `RoundedPolygon`
+
+The base shape class. Key methods:
+
+### `.normalized(): RoundedPolygon`
+
+Returns a copy centered at the origin and scaled to fit within a unit circle. **Required before passing custom polygons to `Morph`.**

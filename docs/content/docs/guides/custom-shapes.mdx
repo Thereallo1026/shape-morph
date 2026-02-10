@@ -1,0 +1,83 @@
+---
+title: Custom Shapes
+description: Create your own rounded polygons.
+---
+
+Beyond the 35 preset shapes, you can build custom `RoundedPolygon` instances from scratch using the polygon builder functions.
+
+## Star
+
+```ts
+import { createStar, cornerRounding } from "shape-morph";
+
+const star = createStar(
+  5,                    // number of points
+  1,                    // outer radius
+  0.5,                  // inner radius (ratio to outer)
+  cornerRounding(0.1)   // corner rounding
+);
+```
+
+The inner radius controls how deep the indentations go. `0.5` gives a classic star shape. Lower values make sharper, deeper points.
+
+## Rectangle
+
+```ts
+import { createRectangle, cornerRounding } from "shape-morph";
+
+const rect = createRectangle(
+  1,                    // width
+  1,                    // height
+  cornerRounding(0.2)   // corner rounding
+);
+```
+
+## Regular polygon
+
+```ts
+import { createPolygon, cornerRounding } from "shape-morph";
+
+const hexagon = createPolygon(
+  6,                    // number of vertices
+  cornerRounding(0.1)   // corner rounding
+);
+```
+
+## Circle
+
+```ts
+import { createCircle } from "shape-morph";
+
+const circle = createCircle(); // default 8 vertices
+const smoothCircle = createCircle(16); // more vertices = smoother
+```
+
+## Corner rounding
+
+```ts
+import { cornerRounding } from "shape-morph";
+
+const rounding = cornerRounding(
+  0.2,  // radius (0–1, fraction of edge length)
+  0.5   // smoothing (0–1, optional, default 0)
+);
+```
+
+- **radius** controls how much of each corner is rounded. `0` is sharp, `1` rounds the entire edge.
+- **smoothing** adds a cubic Bezier easing to the rounding curve. `0` gives circular arcs, higher values make softer, more organic curves.
+
+## Morphing custom shapes
+
+Custom shapes work with `Morph` the same way preset shapes do. Normalize them first:
+
+```ts
+import { createStar, createRectangle, cornerRounding, Morph, toPathD } from "shape-morph";
+
+const star = createStar(5, 1, 0.5, cornerRounding(0.1));
+const rect = createRectangle(1, 1, cornerRounding(0.2));
+const morph = new Morph(star.normalized(), rect.normalized());
+
+const d = toPathD(morph.asCubics(0.5), 200);
+```
+
+`.normalized()` centers the shape at the origin and scales it to fit within a unit circle. This ensures both shapes share the same coordinate space for morphing.

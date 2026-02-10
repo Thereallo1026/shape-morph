@@ -6,7 +6,7 @@ import type { RoundedPolygon } from "../core/polygon";
  * Convert cubics to a CSS `clip-path: path("...")` value.
  *
  * Uses SVG path syntax inside clip-path. Note that CSS cannot
- * transition between different `path()` values — use `toClipPathPolygon`
+ * transition between different `path()` values - use `toClipPathPolygon`
  * for animatable shapes.
  */
 export function toClipPathPath(cubics: Cubic[], size = 100): string {
