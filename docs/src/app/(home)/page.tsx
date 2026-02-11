@@ -35,7 +35,7 @@ export default function HomePage() {
       <MorphBackground />
       <ScatteredShapes />
       <div className="relative flex max-w-2xl flex-col items-center text-center">
-        <div className="mb-6 rounded-full bg-fd-primary/10 px-4 py-1.5 font-medium text-fd-primary text-sm">
+        <div className="mb-6 rounded-full bg-fd-primary/10 px-4 py-1.5 font-medium text-fd-primary text-sm backdrop-blur-sm">
           Release {version}
         </div>
 
