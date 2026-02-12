@@ -1,0 +1,74 @@
+---
+title: Tailwind CSS
+description: Use shape-morph utilities as Tailwind CSS v4 classes.
+---
+
+For Tailwind CSS v4, shape-morph ships a pre-built utility stylesheet. Import it alongside Tailwind and use `clip-{shape}` classes directly — no JavaScript needed.
+
+## Setup
+
+Import the stylesheet in your CSS entry point:
+
+```css title="app.css"
+@import "tailwindcss";
+@import "shape-morph/tailwind.css";
+```
+
+## Usage
+
+Apply `clip-*` utility classes to any element:
+
+```html
+<img
+  src="/photo.jpg"
+  class="clip-heart hover:clip-circle transition-[clip-path] duration-300"
+/>
+```
+
+All 35 Material Design 3 shapes are available as `clip-*` utilities (e.g. `clip-circle`, `clip-heart`, `clip-diamond`, `clip-cookie-9-sided`). Since every shape produces a `polygon()` with the same number of vertices, CSS transitions between any two shapes work seamlessly.
+
+## Available classes
+
+| Class | Shape |
+|---|---|
+| `clip-circle` | Circle |
+| `clip-square` | Square |
+| `clip-slanted` | Slanted |
+| `clip-arch` | Arch |
+| `clip-fan` | Fan |
+| `clip-arrow` | Arrow |
+| `clip-semi-circle` | SemiCircle |
+| `clip-oval` | Oval |
+| `clip-pill` | Pill |
+| `clip-triangle` | Triangle |
+| `clip-diamond` | Diamond |
+| `clip-clam-shell` | ClamShell |
+| `clip-pentagon` | Pentagon |
+| `clip-gem` | Gem |
+| `clip-sunny` | Sunny |
+| `clip-very-sunny` | VerySunny |
+| `clip-cookie-4-sided` | Cookie4Sided |
+| `clip-cookie-6-sided` | Cookie6Sided |
+| `clip-cookie-7-sided` | Cookie7Sided |
+| `clip-cookie-9-sided` | Cookie9Sided |
+| `clip-cookie-12-sided` | Cookie12Sided |
+| `clip-ghostish` | Ghostish |
+| `clip-clover-4-leaf` | Clover4Leaf |
+| `clip-clover-8-leaf` | Clover8Leaf |
+| `clip-burst` | Burst |
+| `clip-soft-burst` | SoftBurst |
+| `clip-boom` | Boom |
+| `clip-soft-boom` | SoftBoom |
+| `clip-flower` | Flower |
+| `clip-puffy` | Puffy |
+| `clip-puffy-diamond` | PuffyDiamond |
+| `clip-pixel-circle` | PixelCircle |
+| `clip-pixel-triangle` | PixelTriangle |
+| `clip-bun` | Bun |
+| `clip-heart` | Heart |
+
+## How it works
+
+The stylesheet contains `@utility` directives — the Tailwind v4 way to define custom utilities in CSS. Each utility sets `clip-path` to a pre-computed `polygon()` value. Because this is pure CSS, it works with all Tailwind features like responsive prefixes, hover states, and transitions.
+
+For programmatic access or morphing between shapes, see the [CSS Clip-Path](/docs/guides/css-clip-path) guide.

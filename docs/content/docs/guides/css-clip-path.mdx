@@ -51,6 +51,10 @@ const clipPath = toClipPathPath(morph.asCubics(0.5));
 
 `toClipPathPath` uses the SVG `path()` function instead of `polygon()`. This preserves the cubic Bezier curves exactly, but CSS cannot transition between two `path()` values natively. Use this when you need precise curves without animation.
 
+## Tailwind CSS
+
+For zero-JS utility classes, see the [Tailwind CSS](/docs/guides/tailwind) guide.
+
 ## Why polygon works for transitions
 
 `toClipPathPolygon` samples a fixed number of points along each cubic curve. Both the start and end polygon strings always have the exact same number of vertices. When browsers see two `polygon()` values with matching vertex counts, they interpolate each point linearly. No JavaScript animation loop needed.
