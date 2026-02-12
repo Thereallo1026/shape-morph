@@ -4,6 +4,10 @@
   "description": "Material Design 3 shape morphing for the web. CSS clip-path, SVG, and React support.",
   "author": "Thereallo",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thereallo1026/shape-morph.git"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
