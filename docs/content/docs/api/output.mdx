@@ -46,7 +46,16 @@ Converts cubics to a CSS `clip-path: path("...")` string. Preserves exact cubic 
 ## `toMorphPair`
 
 ```ts
-toMorphPair(progress: number, start: ShapeName, end: ShapeName, samples?: number): string
+toMorphPair(start: RoundedPolygon, end: RoundedPolygon, samplesPerCubic?: number): [string, string]
 ```
 
-Convenience function. Creates a `Morph` from two shape names and returns the `clip-path` polygon string at the given progress. Useful for one-off values without manually creating `Morph` instances.
+Pre-computes a pair of `polygon()` strings from two shapes that are guaranteed to have the same vertex count. Returns a `[startPolygon, endPolygon]` tuple ready for CSS transitions.
+
+```ts
+import { getShape, toMorphPair } from "shape-morph";
+
+const [from, to] = toMorphPair(getShape("Circle"), getShape("Heart"));
+// Use as: style={{ clipPath: from }}
+// Hover:  style={{ clipPath: to }}
+// With:   transition: clip-path 500ms ease
+```

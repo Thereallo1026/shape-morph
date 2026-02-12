@@ -32,12 +32,12 @@ Apply `startClip` on idle and `endClip` on hover. The CSS handles the animation:
 ## Shorthand with `toMorphPair`
 
 ```ts
-import { toMorphPair } from "shape-morph";
+import { getShape, toMorphPair } from "shape-morph";
 
-const clipPath = toMorphPair(0.5, "Circle", "Heart");
+const [from, to] = toMorphPair(getShape("Circle"), getShape("Heart"));
 ```
 
-`toMorphPair` creates the morph internally and returns the clip-path string at the given progress. Useful for one-off values.
+`toMorphPair` creates the morph internally and returns both the start and end `polygon()` strings as a tuple. Both strings have identical vertex counts, so CSS can transition between them directly.
 
 ## `clip-path: path()` variant
 
