@@ -135,8 +135,6 @@ export function Playground() {
     setProgress(1 - progress);
   };
 
-  const _codeSnippet = `const { pathD, clipPath } = useMorph("${startShape}", "${endShape}", {\n  progress: ${progress.toFixed(2)},\n});`;
-
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
       <div className="flex flex-col items-center gap-6 rounded-2xl border border-fd-border bg-fd-card p-6 sm:p-8">
