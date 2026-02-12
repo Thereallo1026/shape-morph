@@ -1,6 +1,6 @@
 {
   "name": "shape-morph",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Material Design 3 shape morphing for the web. CSS clip-path, SVG, and React support.",
   "author": "Thereallo",
   "license": "MIT",
