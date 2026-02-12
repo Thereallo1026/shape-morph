@@ -6,13 +6,9 @@ import { getPageImage, source } from "@/lib/source";
 
 export const revalidate = false;
 
-const fontRegular = fetch(
-  "https://fonts.gstatic.com/s/productsans/v20/pxiDypQkot1TnFhsFMOfGShlEA.ttf"
-).then((res) => res.arrayBuffer());
-
-const fontBold = fetch(
-  "https://fonts.gstatic.com/s/productsans/v20/pxicypQkot1TnFhsFMOfGShdrPKrSA.ttf"
-).then((res) => res.arrayBuffer());
+const fontsDir = join(process.cwd(), "public/fonts");
+const fontRegular = readFileSync(join(fontsDir, "google-sans-regular.ttf"));
+const fontBold = readFileSync(join(fontsDir, "google-sans-bold.ttf"));
 
 const iconSvg = readFileSync(join(process.cwd(), "public/icon.svg"), "utf-8");
 const iconDataUri = `data:image/svg+xml;base64,${Buffer.from(iconSvg).toString("base64")}`;
@@ -33,8 +29,6 @@ export async function GET(
   if (!page) {
     notFound();
   }
-
-  const [regularFont, boldFont] = await Promise.all([fontRegular, fontBold]);
 
   return new ImageResponse(
     <div
@@ -92,13 +86,13 @@ export async function GET(
       fonts: [
         {
           name: "Google Sans",
-          data: regularFont,
+          data: fontRegular,
           weight: 400,
           style: "normal",
         },
         {
           name: "Google Sans",
-          data: boldFont,
+          data: fontBold,
           weight: 700,
           style: "normal",
         },
