@@ -1,5 +1,5 @@
 {
   "title": "Guides",
   "defaultOpen": true,
-  "pages": ["svg-path", "css-clip-path", "tailwind", "react", "custom-shapes"]
+  "pages": ["svg-path", "css-clip-path", "canvas", "tailwind", "react", "custom-shapes"]
 }

@@ -1,0 +1,78 @@
+---
+title: Canvas
+description: Render shapes on HTML Canvas with Path2D.
+---
+
+Shapes can be rendered on an HTML Canvas using the `Path2D` API. The output functions return `Path2D` objects that work directly with `ctx.fill()` and `ctx.stroke()`.
+
+## Single shape
+
+```ts
+import { getShape, toCanvasPath } from "shape-morph";
+
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+
+const heart = getShape("Heart");
+const path = toCanvasPath(heart, 200);
+
+ctx.fillStyle = "red";
+ctx.fill(path);
+```
+
+`toCanvasPath` converts a `RoundedPolygon` directly to a `Path2D`. The second argument is the output size in pixels.
+
+## Morphed shape
+
+```ts
+import { getShape, Morph, toPath2D } from "shape-morph";
+
+const start = getShape("Circle");
+const end = getShape("Heart");
+const morph = new Morph(start, end);
+
+// Get the midpoint between Circle and Heart
+const path = toPath2D(morph.asCubics(0.5), 200);
+
+ctx.fillStyle = "red";
+ctx.fill(path);
+```
+
+`toPath2D` takes the cubic curves from `morph.asCubics(progress)` and converts them to a `Path2D` object. Use this when you need to draw intermediate morph states on canvas.
+
+## Animation loop
+
+Use `requestAnimationFrame` to animate a morph on canvas:
+
+```ts
+import { getShape, Morph, toPath2D } from "shape-morph";
+
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+const size = 200;
+
+const morph = new Morph(getShape("Circle"), getShape("Heart"));
+
+let startTime: number | null = null;
+const duration = 1000;
+
+function animate(time: number) {
+  if (!startTime) startTime = time;
+  const elapsed = time - startTime;
+
+  // Ping-pong between 0 and 1
+  const raw = (elapsed % (duration * 2)) / duration;
+  const progress = raw > 1 ? 2 - raw : raw;
+
+  ctx.clearRect(0, 0, size, size);
+  const path = toPath2D(morph.asCubics(progress), size);
+  ctx.fillStyle = "red";
+  ctx.fill(path);
+
+  requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+```
+
+The progress value ping-pongs between 0 and 1, smoothly morphing the circle into a heart and back. Call `ctx.clearRect` each frame to avoid drawing over the previous shape.

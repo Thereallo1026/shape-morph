@@ -1,12 +1,12 @@
 ---
 title: Output
-description: Functions for converting shapes to SVG and CSS.
+description: Functions for converting shapes to SVG, CSS, and Canvas.
 ---
 
 Output functions convert cubic curves or polygons into renderable formats.
 
 ```ts
-import { toPathD, toSvgPath, toClipPathPolygon, toClipPathPath, toMorphPair } from "shape-morph";
+import { toPathD, toSvgPath, toClipPathPolygon, toClipPathPath, toMorphPair, toPath2D, toCanvasPath } from "shape-morph";
 ```
 
 ## `toPathD`
@@ -58,4 +58,27 @@ const [from, to] = toMorphPair(getShape("Circle"), getShape("Heart"));
 // Use as: style={{ clipPath: from }}
 // Hover:  style={{ clipPath: to }}
 // With:   transition: clip-path 500ms ease
+```
+
+## `toPath2D`
+
+```ts
+toPath2D(cubics: Cubic[], size?: number): Path2D
+```
+
+Converts cubic curves (from `morph.asCubics()`) to a Canvas2D `Path2D` object. Use with `ctx.fill(path)` or `ctx.stroke(path)`. Optional `size` scales the output (default 100).
+
+## `toCanvasPath`
+
+```ts
+toCanvasPath(polygon: RoundedPolygon, size?: number): Path2D
+```
+
+Converts a `RoundedPolygon` directly to a `Path2D`. Shorthand for shapes that don't need morphing.
+
+```ts
+import { getShape, toCanvasPath } from "shape-morph";
+
+const path = toCanvasPath(getShape("Heart"), 200);
+ctx.fill(path);
 ```
