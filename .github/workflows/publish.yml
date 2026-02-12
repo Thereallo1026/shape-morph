@@ -57,3 +57,6 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --provenance
+
+      - name: Trigger Vercel deployment
+        run: curl -s -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
