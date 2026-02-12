@@ -38,10 +38,10 @@ The fixed vertex count is what makes CSS transitions work - both start and end p
 ## `toClipPathPath`
 
 ```ts
-toClipPathPath(cubics: Cubic[], samples?: number): string
+toClipPathPath(cubics: Cubic[], size?: number): string
 ```
 
-Converts cubics to a CSS `clip-path: path("...")` string. Preserves exact cubic Bezier curves. CSS **cannot** transition between two `path()` values, so use this only for static shapes.
+Converts cubics to a CSS `clip-path: path("...")` string. Optional `size` scales the output (default 100). Preserves exact cubic Bezier curves. CSS **cannot** transition between two `path()` values, so use this only for static shapes.
 
 ## `toMorphPair`
 

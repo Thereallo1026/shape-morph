@@ -8,7 +8,7 @@ import type { RoundedPolygon } from "../core/polygon";
  * anchor1 (end). These map to the SVG cubic bezier command:
  *   C control0X,control0Y control1X,control1Y anchor1X,anchor1Y
  *
- * Shapes from `getShape()` are normalized to 0–1 coordinates.
+ * Shapes from `getShape()` are normalized to 0-1 coordinates.
  * The `size` parameter scales them to pixel/viewBox space.
  */
 export function toPathD(cubics: Cubic[], size = 100): string {

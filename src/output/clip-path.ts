@@ -42,7 +42,7 @@ export function toClipPathPath(cubics: Cubic[], size = 100): string {
  * // Both have the same vertex count → CSS can transition between them
  * ```
  *
- * @param cubics - Array of Cubic bezier curves (normalized 0–1)
+ * @param cubics - Array of Cubic bezier curves (normalized 0-1)
  * @param samplesPerCubic - Points to sample per cubic segment (default 4)
  * @returns CSS `polygon(...)` string with percentage coordinates
  */

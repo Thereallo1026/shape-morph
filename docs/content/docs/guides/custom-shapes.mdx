@@ -39,6 +39,9 @@ import { createPolygon, cornerRounding } from "shape-morph";
 
 const hexagon = createPolygon(
   6,                    // number of vertices
+  1,                    // radius
+  0,                    // centerX
+  0,                    // centerY
   cornerRounding(0.1)   // corner rounding
 );
 ```
@@ -58,8 +61,8 @@ const smoothCircle = createCircle(16); // more vertices = smoother
 import { cornerRounding } from "shape-morph";
 
 const rounding = cornerRounding(
-  0.2,  // radius (0–1, fraction of edge length)
-  0.5   // smoothing (0–1, optional, default 0)
+  0.2,  // radius (0-1, fraction of edge length)
+  0.5   // smoothing (0-1, optional, default 0)
 );
 ```
 
@@ -80,4 +83,4 @@ const morph = new Morph(star.normalized(), rect.normalized());
 const d = toPathD(morph.asCubics(0.5), 200);
 ```
 
-`.normalized()` centers the shape at the origin and scales it to fit within a unit circle. This ensures both shapes share the same coordinate space for morphing.
+`.normalized()` scales the shape to fit within a 0-1 coordinate space (unit square), centered within the bounding box. This ensures both shapes share the same coordinate space for morphing.

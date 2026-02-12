@@ -12,39 +12,57 @@ import { createStar, createCircle, createRectangle, createPolygon, cornerRoundin
 ## `createCircle`
 
 ```ts
-createCircle(vertices?: number): RoundedPolygon
+createCircle(numVertices?: number, radius?: number, centerX?: number, centerY?: number): RoundedPolygon
 ```
 
-Creates a circle approximation using cubic Bezier curves. Default is 8 vertices. More vertices = smoother circle.
+Creates a circle approximation using cubic Bezier curves. Default is 8 vertices, radius 1, centered at the origin. More vertices = smoother circle.
 
 ## `createRectangle`
 
 ```ts
-createRectangle(width: number, height: number, rounding?: CornerRounding): RoundedPolygon
+createRectangle(
+  width?: number,
+  height?: number,
+  rounding?: CornerRounding,
+  perVertexRounding?: CornerRounding[] | null,
+  centerX?: number,
+  centerY?: number
+): RoundedPolygon
 ```
 
-Creates a rectangle with optional corner rounding.
+Creates a rectangle with optional corner rounding. Defaults to a 2x2 rectangle centered at the origin. Use `perVertexRounding` to apply different rounding to each corner.
 
 ## `createStar`
 
 ```ts
 createStar(
-  points: number,
-  outerRadius: number,
-  innerRadius: number,
-  rounding: CornerRounding
+  numVerticesPerRadius: number,
+  radius?: number,
+  innerRadius?: number,
+  rounding?: CornerRounding,
+  innerRounding?: CornerRounding | null,
+  perVertexRounding?: CornerRounding[] | null,
+  centerX?: number,
+  centerY?: number
 ): RoundedPolygon
 ```
 
-Creates a star polygon. `innerRadius` is relative to `outerRadius` - a value of `0.5` means the inner points are halfway to the center.
+Creates a star polygon. Defaults to radius 1, inner radius 0.5, centered at the origin. `innerRadius` is relative to `radius` - a value of `0.5` means the inner points are halfway to the center. Use `innerRounding` to apply different rounding to inner vertices.
 
 ## `createPolygon`
 
 ```ts
-createPolygon(vertices: number, rounding: CornerRounding): RoundedPolygon
+createPolygon(
+  numVertices: number,
+  radius?: number,
+  centerX?: number,
+  centerY?: number,
+  rounding?: CornerRounding,
+  perVertexRounding?: CornerRounding[] | null
+): RoundedPolygon
 ```
 
-Creates a regular polygon (triangle, pentagon, hexagon, etc.) with the given number of vertices.
+Creates a regular polygon (triangle, pentagon, hexagon, etc.) with the given number of vertices. Defaults to radius 1, centered at the origin, with no rounding.
 
 ## `cornerRounding`
 
@@ -54,8 +72,8 @@ cornerRounding(radius: number, smoothing?: number): CornerRounding
 
 Creates a corner rounding configuration.
 
-- **radius** (0–1): Fraction of edge length used for rounding. `0` is sharp, `1` rounds the entire edge.
-- **smoothing** (0–1, default `0`): Cubic Bezier easing applied to the rounding. `0` gives circular arcs, higher values produce softer organic curves.
+- **radius** (0-1): Fraction of edge length used for rounding. `0` is sharp, `1` rounds the entire edge.
+- **smoothing** (0-1, default `0`): Cubic Bezier easing applied to the rounding. `0` gives circular arcs, higher values produce softer organic curves.
 
 ## `RoundedPolygon`
 
@@ -63,4 +81,4 @@ The base shape class. Key methods:
 
 ### `.normalized(): RoundedPolygon`
 
-Returns a copy centered at the origin and scaled to fit within a unit circle. **Required before passing custom polygons to `Morph`.**
+Returns a copy scaled to fit within a 0-1 coordinate space (unit square), centered within the bounding box. **Required before passing custom polygons to `Morph`.**

@@ -1,6 +1,6 @@
 // Ported from AOSP MaterialShapes.kt
 
-// all 37 Material Design 3 predefined shapes
+// all 35 Material Design 3 predefined shapes
 
 import {
   type CornerRounding,

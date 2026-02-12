@@ -21,9 +21,10 @@ Props:
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `name` | `ShapeName` | required | Shape to render |
-| `size` | `number` | `24` | Width and height in pixels |
+| `size` | `number` | `48` | Width and height in pixels |
 | `fill` | `string` | `"currentColor"` | Fill color |
 | `stroke` | `string` | - | Stroke color |
+| `strokeWidth` | `number` | - | Stroke width |
 | `className` | `string` | - | Class on the `<svg>` element |
 | `style` | `CSSProperties` | - | Style on the `<svg>` element |
 
@@ -58,9 +59,10 @@ Change the target `progress` and the hook smoothly animates from the current pos
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `progress` | `number` | `0` | Target progress (0–1) |
+| `progress` | `number` | `0` | Target progress (0-1) |
 | `duration` | `number` | `300` | Animation duration in ms |
-| `size` | `number` | - | Output size for `pathD` |
+| `samples` | `number` | `4` | Samples per cubic for polygon output |
+| `size` | `number` | `100` | Output size for `pathD` |
 
 ### Return value
 
@@ -68,7 +70,7 @@ Change the target `progress` and the hook smoothly animates from the current pos
 |---|---|---|
 | `pathD` | `string` | SVG path `d` attribute |
 | `clipPath` | `string` | CSS `clip-path: polygon(...)` |
-| `progress` | `number` | Current animated progress (0–1) |
+| `progress` | `number` | Current animated progress (0-1) |
 
 The `progress` return value is the eased, animated value - not the target. Use it to sync other animations like rotation or color transitions.
 
