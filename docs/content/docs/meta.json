@@ -4,12 +4,11 @@
   "pages": [
     "index",
     "getting-started",
+    "[Playground](/docs/playground)",
     "---Guides---",
     "...guides",
     "shapes",
     "---API Reference---",
-    "...api",
-    "---",
-    "[Playground](/docs/playground)"
+    "...api"
   ]
 }

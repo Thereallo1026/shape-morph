@@ -41,6 +41,7 @@
   --color-fd-ring: hsl(264, 100%, 83%);
 }
 
-[data-sidebar-placeholder] a[href] {
+a[data-active] {
   border-radius: 9999px !important;
+  padding-inline-start: 16px !important;
 }
