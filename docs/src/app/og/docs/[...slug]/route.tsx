@@ -53,6 +53,7 @@ export async function GET(
           lineHeight: 1.2,
         }}
       >
+        {/** biome-ignore lint/performance/noImgElement: og image generation cannot use <Image> */}
         <img alt="" height={56} src={iconDataUri} width={56} />
         <p
           style={{

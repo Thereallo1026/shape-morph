@@ -82,7 +82,13 @@ describe("createStar", () => {
   });
 
   test("creates a star with inner rounding", () => {
-    const star = createStar(5, 1, 0.5, cornerRounding(0.1), cornerRounding(0.05));
+    const star = createStar(
+      5,
+      1,
+      0.5,
+      cornerRounding(0.1),
+      cornerRounding(0.05)
+    );
     expect(star.cubics.length).toBeGreaterThan(0);
   });
 });

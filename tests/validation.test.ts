@@ -13,7 +13,7 @@ const originalCAF = globalThis.cancelAnimationFrame;
 globalThis.requestAnimationFrame = (_cb: FrameRequestCallback) => 0;
 globalThis.cancelAnimationFrame = (_id: number) => {
   // no-op
-}
+};
 
 const { AnimatedMorph } = await import("../src/animated-morph");
 
