@@ -35,6 +35,9 @@ jobs:
       - name: Bump version
         run: npm version ${{ inputs.bump }} --no-git-tag-version
 
+      - name: Test
+        run: bun test
+
       - name: Build
         run: bun run build
 
