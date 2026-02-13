@@ -4,16 +4,19 @@ import { Morph } from "../core/morph";
 import { easeInOut } from "../easing";
 import { toClipPathPolygon } from "../output/clip-path";
 import { toPathD } from "../output/svg-path";
+import type { SpringConfig } from "../spring";
 
 export interface MorphOptions {
   /** Target progress (0-1). Changes trigger animation. */
   progress: number;
-  /** Animation duration in ms (default 300). Cannot use with `lerp`. */
+  /** Animation duration in ms (default 300). Cannot use with `lerp` or `spring`. */
   duration?: number;
-  /** Easing function for duration-based animation (default easeInOut). Cannot use with `lerp`. */
+  /** Easing function for duration-based animation (default easeInOut). Cannot use with `lerp` or `spring`. */
   easing?: (t: number) => number;
-  /** Lerp factor (0-1). Each frame moves this fraction toward the target. Cannot use with `duration` or `easing`. */
+  /** Lerp factor (0-1). Each frame moves this fraction toward the target. Cannot use with `duration`, `easing`, or `spring`. */
   lerp?: number;
+  /** Spring physics config. Cannot use with `duration`, `easing`, or `lerp`. */
+  spring?: SpringConfig;
   /** Samples per cubic for polygon output (default 4) */
   samples?: number;
   /** SVG path size (default 100) */
@@ -25,7 +28,7 @@ export interface MorphOutput {
   pathD: string;
   /** CSS `clip-path: polygon(...)` value */
   clipPath: string;
-  /** Current animated progress (0-1) */
+  /** Current animated progress. May overshoot 0-1 in spring mode. */
   progress: number;
 }
 
@@ -55,11 +58,18 @@ export function useMorph(
   endShape: ShapeName,
   options: MorphOptions
 ): MorphOutput {
-  if (options.lerp !== undefined && options.duration !== undefined) {
-    throw new Error("Cannot use both 'lerp' and 'duration'");
+  const modes: string[] = [];
+  if (options.duration !== undefined || options.easing !== undefined) {
+    modes.push("duration/easing");
   }
-  if (options.lerp !== undefined && options.easing !== undefined) {
-    throw new Error("Cannot use both 'lerp' and 'easing'");
+  if (options.lerp !== undefined) {
+    modes.push("lerp");
+  }
+  if (options.spring !== undefined) {
+    modes.push("spring");
+  }
+  if (modes.length > 1) {
+    throw new Error(`Cannot combine animation modes: ${modes.join(" and ")}`);
   }
 
   const morph = useMemo(
@@ -125,12 +135,55 @@ export function useMorph(
     animRef.current = requestAnimationFrame(step);
   }, []);
 
+  const velocityRef = useRef(0);
+
+  const springAnimate = useCallback((target: number, config: SpringConfig) => {
+    cancelAnimationFrame(animRef.current);
+
+    const stiffness = config.stiffness ?? 180;
+    const damping = config.damping ?? 12;
+    let lastTime: number | null = null;
+
+    const step = (timestamp: number) => {
+      if (!lastTime) {
+        lastTime = timestamp;
+        animRef.current = requestAnimationFrame(step);
+        return;
+      }
+
+      const dt = Math.min((timestamp - lastTime) / 1000, 1 / 30);
+      lastTime = timestamp;
+
+      const current = progressRef.current;
+      const force = stiffness * (target - current);
+      const friction = damping * velocityRef.current;
+      velocityRef.current += (force - friction) * dt;
+      const next = current + velocityRef.current * dt;
+
+      if (
+        Math.abs(target - next) < 0.0005 &&
+        Math.abs(velocityRef.current) < 0.0005
+      ) {
+        velocityRef.current = 0;
+        setCurrentProgress(target);
+        return;
+      }
+
+      setCurrentProgress(next);
+      animRef.current = requestAnimationFrame(step);
+    };
+
+    animRef.current = requestAnimationFrame(step);
+  }, []);
+
   useEffect(() => {
     const prev = targetRef.current;
     targetRef.current = options.progress;
 
     if (Math.abs(prev - options.progress) > 0.001) {
-      if (options.lerp !== undefined) {
+      if (options.spring !== undefined) {
+        springAnimate(options.progress, options.spring);
+      } else if (options.lerp !== undefined) {
         lerpAnimate(options.progress, options.lerp);
       } else {
         animate(
@@ -146,8 +199,10 @@ export function useMorph(
     options.duration,
     options.easing,
     options.lerp,
+    options.spring,
     animate,
     lerpAnimate,
+    springAnimate,
   ]);
 
   useEffect(() => {
@@ -158,7 +213,8 @@ export function useMorph(
   const size = options.size ?? 100;
 
   return useMemo(() => {
-    const cubics = morph.asCubics(currentProgress);
+    const clamped = Math.max(0, Math.min(1, currentProgress));
+    const cubics = morph.asCubics(clamped);
     return {
       pathD: toPathD(cubics, size),
       clipPath: toClipPathPolygon(cubics, samples),

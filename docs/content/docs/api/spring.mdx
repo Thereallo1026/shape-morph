@@ -1,0 +1,94 @@
+---
+title: Spring
+description: Spring physics animation for shape morphing.
+---
+
+Spring mode simulates a physical spring, the value accelerates toward the target, overshoots, bounces back, and settles. This gives a natural, organic feel that's hard to replicate with easing curves.
+
+```ts
+import type { SpringConfig } from "shape-morph";
+```
+
+## `SpringConfig`
+
+<AutoTypeTable path="../src/spring.ts" name="SpringConfig" />
+
+Both properties are optional and have sensible defaults.
+
+## How it works
+
+Each animation frame, the spring simulation updates velocity and position:
+
+```
+force = stiffness × (target - position)
+friction = damping × velocity
+velocity += (force - friction) × dt
+position += velocity × dt
+```
+
+The animation stops when both the distance to target and velocity are near zero.
+
+## Stiffness
+
+Controls how much force pulls toward the target. Higher values make the animation snappier.
+
+| Value | Feel |
+|---|---|
+| `100` | Gentle, slow |
+| `180` | Balanced (default) |
+| `300` | Snappy, fast |
+
+## Damping
+
+Controls friction. Higher values reduce oscillation and make the spring settle faster.
+
+| Value | Feel |
+|---|---|
+| `8` | Bouncy, lots of overshoot |
+| `12` | Moderate bounce (default) |
+| `20` | Minimal overshoot, quick settle |
+
+## Overshoot
+
+Unlike duration and lerp modes, spring `progress` can temporarily go past 1 or below 0 during the bounce. The shape output (`pathD`, `clipPath`) is always clamped to valid 0-1 range, but the raw `progress` value is not. Use it to drive overshoot effects on other properties:
+
+```tsx
+const { clipPath, progress } = useMorph("Circle", "Heart", {
+  progress: hovered ? 1 : 0,
+  spring: { stiffness: 180, damping: 12 },
+});
+
+<div style={{
+  clipPath,
+  // progress overshoots past 1, so rotation goes past 90° and bounces back
+  transform: `rotate(${progress * 90}deg)`,
+}} />
+```
+
+## Usage with `useMorph`
+
+```tsx
+import { useMorph } from "shape-morph/react";
+
+const { clipPath } = useMorph("Circle", "Heart", {
+  progress: hovered ? 1 : 0,
+  spring: { stiffness: 200, damping: 15 },
+});
+```
+
+Cannot combine `spring` with `duration`, `easing`, or `lerp`.
+
+## Usage with `AnimatedMorph`
+
+```ts
+import { AnimatedMorph } from "shape-morph";
+
+const morph = new AnimatedMorph("Circle", "Heart", {
+  spring: { stiffness: 200, damping: 15 },
+  onFrame({ clipPath }) {
+    div.style.clipPath = clipPath;
+  },
+});
+
+morph.progress = 1;
+```

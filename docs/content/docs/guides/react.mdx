@@ -60,9 +60,10 @@ Change the target `progress` and the hook smoothly animates from the current pos
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `progress` | `number` | `0` | Target progress (0-1) |
-| `duration` | `number` | `300` | Animation duration in ms. Cannot use with `lerp`. |
-| `easing` | `(t: number) => number` | `easeInOut` | Easing function for duration-based animation. Cannot use with `lerp`. |
-| `lerp` | `number` | - | Lerp factor (0-1). Each frame moves this fraction toward target. Cannot use with `duration` or `easing`. |
+| `duration` | `number` | `300` | Animation duration in ms. Cannot use with `lerp` or `spring`. |
+| `easing` | `(t: number) => number` | `easeInOut` | Easing function for duration-based animation. Cannot use with `lerp` or `spring`. |
+| `lerp` | `number` | - | Lerp factor (0-1). Each frame moves this fraction toward target. Cannot use with `duration`, `easing`, or `spring`. |
+| `spring` | [`SpringConfig`](/docs/api/spring) | - | Spring physics config. Cannot use with `duration`, `easing`, or `lerp`. |
 | `samples` | `number` | `4` | Samples per cubic for polygon output |
 | `size` | `number` | `100` | Output size for `pathD` |
 
@@ -72,19 +73,36 @@ Change the target `progress` and the hook smoothly animates from the current pos
 |---|---|---|
 | `pathD` | `string` | SVG path `d` attribute |
 | `clipPath` | `string` | CSS `clip-path: polygon(...)` |
-| `progress` | `number` | Current animated progress (0-1) |
+| `progress` | `number` | Current animated progress. May overshoot 0-1 in spring mode. |
 
-The `progress` return value is the eased, animated value - not the target. Use it to sync other animations like rotation or color transitions.
+The `progress` return value is the animated value but not the target. In spring mode it can temporarily overshoot past 0 or 1, which is useful for driving bouncy effects like rotation or scale. The shape output (`pathD`, `clipPath`) is always clamped to valid 0-1 range.
 
 ### Lerp mode
 
 Instead of a fixed duration, lerp mode moves a fraction toward the target each frame. This gives a natural, springy feel without specifying a duration.
 
 ```tsx
-const { clipPath } = useMorph("Circle", "Heart", {
+const { clipPath } = useMorph("Clover4Leaf", "Heart", {
   progress: hovered ? 1 : 0,
   lerp: 0.1,
 });
+```
+
+### Spring mode
+
+Spring mode simulates physical spring dynamics. The value overshoots the target, bounces back, and settles naturally. No duration needed. See [Spring](/docs/api/spring) for details on tuning stiffness and damping.
+
+```tsx
+const { clipPath, progress } = useMorph("Circle", "Heart", {
+  progress: hovered ? 1 : 0,
+  spring: { stiffness: 180, damping: 12 },
+});
+
+<div style={{
+  clipPath,
+  // progress can overshoot 0-1, giving a bouncy rotation
+  transform: `rotate(${progress * 90}deg)`,
+}} />
 ```
 
 ### Custom easing

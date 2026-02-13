@@ -27,7 +27,7 @@ Returns the interpolated cubic curves at the given progress (0-1). Progress 0 is
 new AnimatedMorph(start: ShapeName | RoundedPolygon, end: ShapeName | RoundedPolygon, options: AnimatedMorphOptions)
 ```
 
-Animated morph for vanilla JS. Set the `progress` property and the class animates from the current position, calling `onFrame` each frame. Supports duration-based (with customizable easing) and lerp-based animation — the same modes as the React [`useMorph`](/docs/api/react#usemorph) hook.
+Animated morph for vanilla JS. Set the `progress` property and the class animates from the current position, calling `onFrame` each frame. Supports three animation modes, the same as the React [`useMorph`](/docs/api/react#usemorph) hook: duration-based (with customizable easing), lerp-based, and spring physics.
 
 ```ts
 import { AnimatedMorph } from "shape-morph";
@@ -47,9 +47,10 @@ div.addEventListener("mouseleave", () => { morph.progress = 0; });
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `duration` | `number` | `300` | Animation duration in ms. Cannot use with `lerp`. |
-| `easing` | `(t: number) => number` | `easeInOut` | Easing function. Cannot use with `lerp`. See [Easing](/docs/api/easing). |
-| `lerp` | `number` | - | Lerp factor (0-1). Cannot use with `duration` or `easing`. |
+| `duration` | `number` | `300` | Animation duration in ms. Cannot use with `lerp` or `spring`. |
+| `easing` | `(t: number) => number` | `easeInOut` | Easing function. Cannot use with `lerp` or `spring`. See [Easing](/docs/api/easing). |
+| `lerp` | `number` | - | Lerp factor (0-1). Cannot use with `duration`, `easing`, or `spring`. |
+| `spring` | [`SpringConfig`](/docs/api/spring) | - | Spring physics config. Cannot use with `duration`, `easing`, or `lerp`. |
 | `samples` | `number` | `4` | Samples per cubic for polygon output |
 | `size` | `number` | `100` | Output size for `pathD` |
 | `onFrame` | `(frame) => void` | required | Called each animation frame |
@@ -60,7 +61,7 @@ div.addEventListener("mouseleave", () => { morph.progress = 0; });
 |---|---|---|
 | `pathD` | `string` | SVG path `d` attribute |
 | `clipPath` | `string` | CSS `clip-path: polygon(...)` |
-| `progress` | `number` | Current animated progress (0-1) |
+| `progress` | `number` | Current animated progress. May overshoot 0-1 in spring mode. |
 
 ### `morph.progress`
 

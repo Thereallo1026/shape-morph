@@ -1,4 +1,5 @@
 export type { ShapeName } from "../core/material-shapes";
+export type { SpringConfig } from "../spring";
 export type { ShapeProps } from "./shape";
 export { Shape } from "./shape";
 export type { MorphOptions, MorphOutput } from "./use-morph";

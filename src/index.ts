@@ -35,3 +35,4 @@ export {
   toMorphPair,
 } from "./output/clip-path";
 export { toPathD, toSvgPath } from "./output/svg-path";
+export type { SpringConfig } from "./spring";
