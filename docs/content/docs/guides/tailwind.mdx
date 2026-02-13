@@ -3,7 +3,7 @@ title: Tailwind CSS
 description: Use shape-morph utilities as Tailwind CSS v4 classes.
 ---
 
-For Tailwind CSS v4, shape-morph ships a pre-built utility stylesheet. Import it alongside Tailwind and use `clip-{shape}` classes directly — no JavaScript needed.
+For Tailwind CSS v4, shape-morph ships a pre-built utility stylesheet. Import it alongside Tailwind and use `clip-{shape}` classes directly, no JavaScript is needed.
 
 ## Setup
 
@@ -69,6 +69,6 @@ All 35 Material Design 3 shapes are available as `clip-*` utilities (e.g. `clip-
 
 ## How it works
 
-The stylesheet contains `@utility` directives — the Tailwind v4 way to define custom utilities in CSS. Each utility sets `clip-path` to a pre-computed `polygon()` value. Because this is pure CSS, it works with all Tailwind features like responsive prefixes, hover states, and transitions.
+The stylesheet contains `@utility` directives, the preferred way for Tailwind v4 to define custom utilities in CSS. Each utility sets `clip-path` to a pre-computed `polygon()` value. Because this is pure CSS, it works with all Tailwind features like responsive prefixes, hover states, and transitions.
 
 For programmatic access or morphing between shapes, see the [CSS Clip-Path](/docs/guides/css-clip-path) guide.

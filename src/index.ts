@@ -22,6 +22,7 @@ export {
   relaxedDistanceEpsilon,
   twoPi,
 } from "./core/utils";
+export { easeIn, easeInOut, easeInOutCubic, easeOut, linear } from "./easing";
 export { toCanvasPath, toPath2D } from "./output/canvas";
 export {
   toClipPathPath,

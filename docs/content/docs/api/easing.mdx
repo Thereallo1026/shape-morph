@@ -1,0 +1,66 @@
+---
+title: Easing
+description: Built-in easing functions for shape animations.
+---
+
+Easing presets for use with the `useMorph` hook's `easing` option or your own animation loops. Each is a `(t: number) => number` function where `t` goes from 0 to 1.
+
+```ts
+import { linear, easeIn, easeOut, easeInOut, easeInOutCubic } from "shape-morph";
+```
+
+## `linear`
+
+```ts
+const linear = (t: number): number => t;
+```
+
+No easing. Useful for scroll-driven animations or manual control where you're already providing your own timing.
+
+## `easeIn`
+
+```ts
+const easeIn = (t: number): number => t * t;
+```
+
+Quadratic ease-in. Starts slow, accelerates. Use for elements leaving the screen.
+
+## `easeOut`
+
+```ts
+const easeOut = (t: number): number => 1 - (1 - t) ** 2;
+```
+
+Quadratic ease-out. Starts fast, decelerates. Use for elements entering the screen.
+
+## `easeInOut`
+
+```ts
+const easeInOut = (t: number): number =>
+  t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+```
+
+Quadratic ease-in-out. This is the default easing for `useMorph` when no `easing` option is provided.
+
+## `easeInOutCubic`
+
+```ts
+const easeInOutCubic = (t: number): number =>
+  t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
+```
+
+Cubic ease-in-out. Smoother and more pronounced than the quadratic variant.
+
+## Custom easing
+
+The `easing` option accepts any function with the signature `(t: number) => number`. Write your own or use a library:
+
+```ts
+import { useMorph } from "shape-morph/react";
+
+const { clipPath } = useMorph("Circle", "Heart", {
+  progress: hovered ? 1 : 0,
+  duration: 500,
+  easing: (t) => 1 - Math.cos((t * Math.PI) / 2), // sine ease-out
+});
+```

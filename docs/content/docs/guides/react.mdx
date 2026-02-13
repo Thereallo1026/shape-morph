@@ -60,7 +60,9 @@ Change the target `progress` and the hook smoothly animates from the current pos
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `progress` | `number` | `0` | Target progress (0-1) |
-| `duration` | `number` | `300` | Animation duration in ms |
+| `duration` | `number` | `300` | Animation duration in ms. Cannot use with `lerp`. |
+| `easing` | `(t: number) => number` | `easeInOut` | Easing function for duration-based animation. Cannot use with `lerp`. |
+| `lerp` | `number` | - | Lerp factor (0-1). Each frame moves this fraction toward target. Cannot use with `duration` or `easing`. |
 | `samples` | `number` | `4` | Samples per cubic for polygon output |
 | `size` | `number` | `100` | Output size for `pathD` |
 
@@ -73,6 +75,31 @@ Change the target `progress` and the hook smoothly animates from the current pos
 | `progress` | `number` | Current animated progress (0-1) |
 
 The `progress` return value is the eased, animated value - not the target. Use it to sync other animations like rotation or color transitions.
+
+### Lerp mode
+
+Instead of a fixed duration, lerp mode moves a fraction toward the target each frame. This gives a natural, springy feel without specifying a duration.
+
+```tsx
+const { clipPath } = useMorph("Circle", "Heart", {
+  progress: hovered ? 1 : 0,
+  lerp: 0.1,
+});
+```
+
+### Custom easing
+
+Override the default easing function with any `(t: number) => number` function. See [Easing](/docs/api/easing) for built-in presets.
+
+```tsx
+import { easeInOutCubic } from "shape-morph";
+
+const { clipPath } = useMorph("Circle", "Heart", {
+  progress: hovered ? 1 : 0,
+  duration: 500,
+  easing: easeInOutCubic,
+});
+```
 
 ## `useShape`
 

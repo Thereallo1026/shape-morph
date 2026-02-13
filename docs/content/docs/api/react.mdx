@@ -26,7 +26,7 @@ Renders a shape as an inline `<svg>` element.
 useMorph(start: ShapeName, end: ShapeName, options: MorphOptions): MorphResult
 ```
 
-Animated morph hook. Runs a `requestAnimationFrame` loop with ease-in-out interpolation.
+Animated morph hook. Runs a `requestAnimationFrame` loop with two animation modes: duration-based (with customizable easing, default ease-in-out) and lerp-based (each frame moves a fraction toward the target).
 
 ### Options
 
@@ -36,7 +36,7 @@ Animated morph hook. Runs a `requestAnimationFrame` loop with ease-in-out interp
 
 <AutoTypeTable path="../src/react/use-morph.ts" name="MorphOutput" />
 
-The returned `progress` is the animated value, not the target. It smoothly interpolates toward the target using ease-in-out timing. Use it to drive synchronized animations:
+The returned `progress` is the animated value, not the target. In duration mode it interpolates using the provided easing function (default ease-in-out — see [Easing](/docs/api/easing) for presets). In lerp mode it moves a fraction toward the target each frame. Use it to drive synchronized animations:
 
 ```tsx
 const { clipPath, progress } = useMorph("Circle", "Heart", {
