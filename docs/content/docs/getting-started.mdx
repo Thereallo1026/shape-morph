@@ -46,6 +46,28 @@ const d = toPathD(morph.asCubics(0.5), 100);
 
 The `Morph` class handles feature-matching and subdivision automatically. Call `asCubics(progress)` at any value between 0 and 1 to get the interpolated shape.
 
+## Animated morph
+
+`AnimatedMorph` adds a built-in animation loop so you don't need to manage `requestAnimationFrame` yourself:
+
+```ts
+import { AnimatedMorph } from "shape-morph";
+
+const morph = new AnimatedMorph("Circle", "Heart", {
+  duration: 300,
+  onFrame({ clipPath }) {
+    div.style.clipPath = clipPath;
+  },
+});
+
+morph.progress = 1; // animates to Heart
+morph.progress = 0; // animates back to Circle
+```
+
+Set the `progress` property and it animates smoothly from the current position. Supports [custom easing](/docs/api/easing) and [lerp mode](/docs/api/core#animatedmorph).
+
+For React, use the [`useMorph`](/docs/guides/react#usemorph) hook instead.
+
 ## Next steps
 
 <Cards>

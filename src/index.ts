@@ -1,3 +1,8 @@
+export type {
+  AnimatedMorphFrame,
+  AnimatedMorphOptions,
+} from "./animated-morph";
+export { AnimatedMorph } from "./animated-morph";
 export type { Feature } from "./core/cubic";
 export { Cubic } from "./core/cubic";
 export type { ShapeName } from "./core/material-shapes";

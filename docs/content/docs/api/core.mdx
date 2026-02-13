@@ -6,7 +6,7 @@ description: Core morph and shape APIs.
 All core exports are available from the `shape-morph` entry point.
 
 ```ts
-import { Morph, getShape, shapeNames } from "shape-morph";
+import { AnimatedMorph, Morph, getShape, shapeNames } from "shape-morph";
 ```
 
 ## `Morph`
@@ -20,6 +20,55 @@ Creates a morph between two shapes. Handles feature-matching, subdivision, and i
 ### `morph.asCubics(progress: number): Cubic[]`
 
 Returns the interpolated cubic curves at the given progress (0-1). Progress 0 is the start shape, 1 is the end shape.
+
+## `AnimatedMorph`
+
+```ts
+new AnimatedMorph(start: ShapeName | RoundedPolygon, end: ShapeName | RoundedPolygon, options: AnimatedMorphOptions)
+```
+
+Animated morph for vanilla JS. Set the `progress` property and the class animates from the current position, calling `onFrame` each frame. Supports duration-based (with customizable easing) and lerp-based animation — the same modes as the React [`useMorph`](/docs/api/react#usemorph) hook.
+
+```ts
+import { AnimatedMorph } from "shape-morph";
+
+const morph = new AnimatedMorph("Circle", "Heart", {
+  duration: 300,
+  onFrame({ clipPath }) {
+    div.style.clipPath = clipPath;
+  },
+});
+
+div.addEventListener("mouseenter", () => { morph.progress = 1; });
+div.addEventListener("mouseleave", () => { morph.progress = 0; });
+```
+
+### Options
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `duration` | `number` | `300` | Animation duration in ms. Cannot use with `lerp`. |
+| `easing` | `(t: number) => number` | `easeInOut` | Easing function. Cannot use with `lerp`. See [Easing](/docs/api/easing). |
+| `lerp` | `number` | - | Lerp factor (0-1). Cannot use with `duration` or `easing`. |
+| `samples` | `number` | `4` | Samples per cubic for polygon output |
+| `size` | `number` | `100` | Output size for `pathD` |
+| `onFrame` | `(frame) => void` | required | Called each animation frame |
+
+### Frame object
+
+| Property | Type | Description |
+|---|---|---|
+| `pathD` | `string` | SVG path `d` attribute |
+| `clipPath` | `string` | CSS `clip-path: polygon(...)` |
+| `progress` | `number` | Current animated progress (0-1) |
+
+### `morph.progress`
+
+Setting `progress` triggers animation from the current position to the new target. Reading it returns the last set target.
+
+### `morph.dispose()`
+
+Cancels any running animation. Call this when removing the element or cleaning up.
 
 ## `getShape`
 

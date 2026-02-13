@@ -76,3 +76,30 @@ requestAnimationFrame(animate);
 ```
 
 The progress value ping-pongs between 0 and 1, smoothly morphing the circle into a heart and back. Call `ctx.clearRect` each frame to avoid drawing over the previous shape.
+
+## With `AnimatedMorph`
+
+For simpler animation setup, use [`AnimatedMorph`](/docs/api/core#animatedmorph) instead of a manual `requestAnimationFrame` loop:
+
+```ts
+import { AnimatedMorph, toPath2D } from "shape-morph";
+
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+const size = 200;
+
+const morph = new AnimatedMorph("Circle", "Heart", {
+  duration: 1000,
+  size,
+  onFrame({ pathD, progress }) {
+    ctx.clearRect(0, 0, size, size);
+    const path = new Path2D(pathD);
+    ctx.fillStyle = "red";
+    ctx.fill(path);
+  },
+});
+
+morph.progress = 1;
+```
+
+`AnimatedMorph` handles the animation loop, easing, and cleanup internally. Set `progress` to trigger animation.
