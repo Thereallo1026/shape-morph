@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MorphBackground } from "@/components/morph-background";
 import { ScatteredShapes } from "@/components/scattered-shapes";
-import packageJson from "../../../../package.json";
+import packageJson from "../../../package.json";
 
 export const metadata: Metadata = {
   openGraph: {

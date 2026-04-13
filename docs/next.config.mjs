@@ -8,7 +8,6 @@ const root = path.resolve(import.meta.dirname, "..");
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
-  outputFileTracingRoot: root,
   turbopack: {
     root,
   },

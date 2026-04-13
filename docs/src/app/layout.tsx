@@ -9,6 +9,7 @@ const googleSans = Google_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://shape-morph.thereallo.dev"),
   title: {
     default: "shape-morph",
     template: "%s | shape-morph",
