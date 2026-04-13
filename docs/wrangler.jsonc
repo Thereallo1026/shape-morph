@@ -19,5 +19,12 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  "routes": [
+    {
+      "pattern": "shape-morph.thereallo.dev",
+      "custom_domain": true
+    }
+  ],
+  "workers_dev": false
 }
