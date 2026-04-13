@@ -1,6 +1,5 @@
 import { RootProvider } from "fumadocs-ui/provider/next";
 import "./global.css";
-import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Google_Sans } from "next/font/google";
 
@@ -26,7 +25,6 @@ export default function Layout({ children }: LayoutProps<"/">) {
     <html className={googleSans.className} lang="en" suppressHydrationWarning>
       <body className="flex min-h-screen flex-col">
         <RootProvider>{children}</RootProvider>
-        <Analytics />
       </body>
     </html>
   );
