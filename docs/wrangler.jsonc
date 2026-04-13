@@ -11,7 +11,7 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "shape-morph-docs"
+      "service": "shape-morph"
     }
   ],
   "images": {
