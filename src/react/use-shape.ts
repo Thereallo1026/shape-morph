@@ -5,10 +5,10 @@ import { toClipPathPolygon } from "../output/clip-path";
 import { toPathD } from "../output/svg-path";
 
 export interface ShapeOutput {
-  /** SVG path `d` attribute string, scaled to `size` */
-  pathD: string;
   /** CSS `clip-path: polygon(...)` value using percentages */
   clipPath: string;
+  /** SVG path `d` attribute string, scaled to `size` */
+  pathD: string;
   /** The underlying RoundedPolygon for advanced use */
   polygon: RoundedPolygon;
 }

@@ -3,18 +3,18 @@ import { getShape, type ShapeName } from "../core/material-shapes";
 import { toPathD } from "../output/svg-path";
 
 export interface ShapeProps {
+  /** Additional className for the SVG element */
+  className?: string;
+  /** Fill color. Default "currentColor" */
+  fill?: string;
   /** Material shape name, e.g. "Heart", "Circle" */
   name: ShapeName;
   /** Size in px (width & height). Default 48 */
   size?: number;
-  /** Fill color. Default "currentColor" */
-  fill?: string;
   /** Stroke color */
   stroke?: string;
   /** Stroke width */
   strokeWidth?: number;
-  /** Additional className for the SVG element */
-  className?: string;
   /** Additional inline styles for the SVG element */
   style?: React.CSSProperties;
 }

@@ -17,9 +17,9 @@ import { floatPi } from "./utils";
 // helpers
 
 interface PointNRound {
+  r: CornerRounding;
   x: number;
   y: number;
-  r: CornerRounding;
 }
 
 function pnr(x: number, y: number, r: CornerRounding = unrounded): PointNRound {

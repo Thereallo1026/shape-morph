@@ -2,12 +2,12 @@ import type { ShapeName } from "shape-morph";
 import { Shape } from "shape-morph/react";
 
 interface ScatteredShape {
+  left: string;
   name: ShapeName;
+  opacity: number;
+  rotation: number;
   size: number;
   top: string;
-  left: string;
-  rotation: number;
-  opacity: number;
 }
 
 const shapes: ScatteredShape[] = [
@@ -48,10 +48,10 @@ const shapes: ScatteredShape[] = [
 export function ScatteredShapes() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {shapes.map((shape, i) => (
+      {shapes.map((shape) => (
         <div
           className="absolute text-fd-primary"
-          key={`${shape.name}-${i}`}
+          key={`${shape.name}-${shape.top}-${shape.left}`}
           style={{
             top: shape.top,
             left: shape.left,

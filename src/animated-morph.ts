@@ -7,10 +7,10 @@ import { toPathD } from "./output/svg-path";
 import type { SpringConfig } from "./spring";
 
 export interface AnimatedMorphFrame {
-  /** SVG path `d` attribute string */
-  pathD: string;
   /** CSS `clip-path: polygon(...)` value */
   clipPath: string;
+  /** SVG path `d` attribute string */
+  pathD: string;
   /** Current animated progress. May overshoot 0-1 in spring mode. */
   progress: number;
 }
@@ -22,14 +22,14 @@ export interface AnimatedMorphOptions {
   easing?: (t: number) => number;
   /** Lerp factor (0-1). Each frame moves this fraction toward the target. Cannot use with `duration`, `easing`, or `spring`. */
   lerp?: number;
-  /** Spring physics config. Cannot use with `duration`, `easing`, or `lerp`. */
-  spring?: SpringConfig;
+  /** Called each animation frame with the current shape output. */
+  onFrame: (frame: AnimatedMorphFrame) => void;
   /** Samples per cubic for polygon output (default 4) */
   samples?: number;
   /** SVG path size (default 100) */
   size?: number;
-  /** Called each animation frame with the current shape output. */
-  onFrame: (frame: AnimatedMorphFrame) => void;
+  /** Spring physics config. Cannot use with `duration`, `easing`, or `lerp`. */
+  spring?: SpringConfig;
 }
 
 export class AnimatedMorph {
@@ -65,15 +65,15 @@ export class AnimatedMorph {
 
     if (this.options.spring !== undefined) {
       this.animateSpring(target, this.options.spring);
-    } else if (this.options.lerp !== undefined) {
-      this.animateLerp(target, this.options.lerp);
-    } else {
+    } else if (this.options.lerp === undefined) {
       this.animateDuration(
         this.currentProgress,
         target,
         this.options.duration ?? 300,
         this.options.easing ?? easeInOut
       );
+    } else {
+      this.animateLerp(target, this.options.lerp);
     }
   }
 

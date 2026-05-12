@@ -16,8 +16,8 @@ import {
 // measurer
 
 interface Measurer {
-  measureCubic(c: Cubic): number;
   findCubicCutPoint(c: Cubic, m: number): number;
+  measureCubic(c: Cubic): number;
 }
 
 class LengthMeasurer implements Measurer {
@@ -58,15 +58,15 @@ class LengthMeasurer implements Measurer {
 // measured polygon
 
 interface ProgressableFeature {
-  progress: number;
   feature: Feature;
+  progress: number;
 }
 
 interface MeasuredCubic {
   cubic: Cubic;
-  startOutlineProgress: number;
   endOutlineProgress: number;
   measuredSize: number;
+  startOutlineProgress: number;
 }
 
 interface MeasuredPolygon {

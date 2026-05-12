@@ -42,6 +42,6 @@
 }
 
 a[data-active] {
-  border-radius: 9999px !important;
   padding-inline-start: 16px !important;
+  border-radius: 9999px !important;
 }

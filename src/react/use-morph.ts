@@ -7,27 +7,27 @@ import { toPathD } from "../output/svg-path";
 import type { SpringConfig } from "../spring";
 
 export interface MorphOptions {
-  /** Target progress (0-1). Changes trigger animation. */
-  progress: number;
   /** Animation duration in ms (default 300). Cannot use with `lerp` or `spring`. */
   duration?: number;
   /** Easing function for duration-based animation (default easeInOut). Cannot use with `lerp` or `spring`. */
   easing?: (t: number) => number;
   /** Lerp factor (0-1). Each frame moves this fraction toward the target. Cannot use with `duration`, `easing`, or `spring`. */
   lerp?: number;
-  /** Spring physics config. Cannot use with `duration`, `easing`, or `lerp`. */
-  spring?: SpringConfig;
+  /** Target progress (0-1). Changes trigger animation. */
+  progress: number;
   /** Samples per cubic for polygon output (default 4) */
   samples?: number;
   /** SVG path size (default 100) */
   size?: number;
+  /** Spring physics config. Cannot use with `duration`, `easing`, or `lerp`. */
+  spring?: SpringConfig;
 }
 
 export interface MorphOutput {
-  /** SVG path `d` attribute string */
-  pathD: string;
   /** CSS `clip-path: polygon(...)` value */
   clipPath: string;
+  /** SVG path `d` attribute string */
+  pathD: string;
   /** Current animated progress. May overshoot 0-1 in spring mode. */
   progress: number;
 }
@@ -183,15 +183,15 @@ export function useMorph(
     if (Math.abs(prev - options.progress) > 0.001) {
       if (options.spring !== undefined) {
         springAnimate(options.progress, options.spring);
-      } else if (options.lerp !== undefined) {
-        lerpAnimate(options.progress, options.lerp);
-      } else {
+      } else if (options.lerp === undefined) {
         animate(
           progressRef.current,
           options.progress,
           options.duration ?? 300,
           options.easing ?? easeInOut
         );
+      } else {
+        lerpAnimate(options.progress, options.lerp);
       }
     }
   }, [
@@ -205,9 +205,7 @@ export function useMorph(
     springAnimate,
   ]);
 
-  useEffect(() => {
-    return () => cancelAnimationFrame(animRef.current);
-  }, []);
+  useEffect(() => () => cancelAnimationFrame(animRef.current), []);
 
   const samples = options.samples ?? 4;
   const size = options.size ?? 100;
