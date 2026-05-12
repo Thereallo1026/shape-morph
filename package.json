@@ -72,7 +72,7 @@
     "check": "ultracite check",
     "fix": "ultracite fix",
     "test": "bun test",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "bun test && ultracite check && bun run build"
   },
   "sideEffects": false,
   "type": "module",
