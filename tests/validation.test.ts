@@ -1,9 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import type { AnimatedMorphFrame } from "../src/animated-morph";
 
-// can't test useMorph directly (React hook), but we can test
-// AnimatedMorph validation since it uses the same logic
-
 // AnimatedMorph requires requestAnimationFrame (browser API),
 // so we mock it for validation-only tests
 
